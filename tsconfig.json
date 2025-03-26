@@ -5,6 +5,12 @@
   "references": [
     {
       "path": "./packages/search-bar-ui"
+    },
+    {
+      "path": "./apps/test-my-app-e2e"
+    },
+    {
+      "path": "./apps/test-my-app"
     }
   ]
 }
