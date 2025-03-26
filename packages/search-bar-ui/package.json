@@ -1,49 +1,41 @@
 {
   "name": "@simple-ui-kit/search-bar-ui",
   "version": "0.0.2",
-  "description": "A simple and customizable search bar component for React applications",
+  "description": "A simple search bar component",
+  "type": "module",
   "main": "./dist/index.js",
-  "module": "./dist/index.js",
+  "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
-  "sideEffects": false,
   "files": [
     "dist"
   ],
+  "scripts": {
+    "build": "rollup -c",
+    "watch": "rollup -cw"
+  },
+  "keywords": [
+    "react",
+    "search",
+    "ui",
+    "component"
+  ],
+  "author": "c-goldcrane",
+  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/c-goldcrane/simple-ui-kit"
   },
-  "scripts": {
-    "build": "rollup -c && tsc --emitDeclarationOnly",
-    "dev:search-bar-ui": "rollup -c -w"
-  },
   "peerDependencies": {
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0"
   },
-  "publishConfig": {
-    "access": "public"
-  },
-  "keywords": [
-    "react",
-    "ui",
-    "search",
-    "component"
-  ],
-  "author": "",
-  "license": "ISC",
   "devDependencies": {
-    "@babel/core": "^7.24.0",
-    "@babel/preset-env": "^7.24.0",
-    "@babel/preset-react": "^7.24.0",
-    "@babel/preset-typescript": "^7.24.0",
-    "@rollup/plugin-babel": "^6.0.4",
-    "@rollup/plugin-commonjs": "^28.0.3",
+    "@rollup/plugin-commonjs": "^25.0.0",
     "@rollup/plugin-node-resolve": "^15.0.0",
-    "@types/react": "^18.2.0",
-    "@types/react-dom": "^18.2.0",
+    "@rollup/plugin-typescript": "^11.0.0",
+    "@types/react": "^18.0.0",
     "rollup": "^4.0.0",
     "rollup-plugin-postcss": "^4.0.0",
-    "typescript": "^5.8.2"
+    "typescript": "^5.0.0"
   }
 }

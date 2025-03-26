@@ -1,20 +1,23 @@
 {
   "compilerOptions": {
-    "target": "es2018",
+    "target": "es5",
     "module": "esnext",
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "lib": ["dom", "esnext"],
     "jsx": "react-jsx",
     "declaration": true,
-    "declarationDir": "./dist",
+    "declarationDir": "dist",
     "sourceMap": true,
-    "outDir": "./dist",
+    "outDir": "dist",
     "strict": true,
     "moduleResolution": "node",
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true
+    "forceConsistentCasingInFileNames": true,
+    "rootDir": "src",
+    "emitDeclarationOnly": true,
+    "noEmit": false
   },
-  "include": ["src"],
+  "include": ["src/**/*"],
   "exclude": ["node_modules", "dist", "**/*.test.ts", "**/*.test.tsx"]
 }

@@ -1,43 +1,36 @@
-const babel = require("@rollup/plugin-babel").default;
-const resolve = require("@rollup/plugin-node-resolve").default;
-const commonjs = require("@rollup/plugin-commonjs").default;
-const postcss = require("rollup-plugin-postcss");
-const path = require("path");
+import commonjs from "@rollup/plugin-commonjs";
+import resolve from "@rollup/plugin-node-resolve";
+import typescript from "@rollup/plugin-typescript";
+import postcss from "rollup-plugin-postcss";
 
-const extensions = [".js", ".jsx", ".ts", ".tsx"];
-
-module.exports = {
+export default {
   input: "src/index.ts",
   output: [
     {
       file: "dist/index.js",
-      format: "esm",
+      format: "cjs",
       sourcemap: true,
-      globals: {
-        react: "React",
-        "react-dom": "ReactDOM",
-      },
+    },
+    {
+      file: "dist/index.mjs",
+      format: "es",
+      sourcemap: true,
     },
   ],
-  external: ["react", "react-dom", "react/jsx-runtime"],
+  external: ["react", "react-dom"],
   plugins: [
     resolve({
-      extensions,
-      preferBuiltins: false,
+      extensions: [".js", ".jsx", ".ts", ".tsx", ".json"],
     }),
-    commonjs({
-      include: /node_modules/,
-    }),
-    babel({
-      extensions,
-      babelHelpers: "bundled",
-      include: ["src/**/*"],
+    commonjs(),
+    typescript({
+      tsconfig: "./tsconfig.json",
+      declaration: true,
+      declarationDir: "dist",
     }),
     postcss({
-      modules: true,
       extract: false,
-      inject: true,
-      minimize: true,
+      modules: true,
     }),
   ],
 };
