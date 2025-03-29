@@ -1,39 +1,53 @@
-import React, { ChangeEvent } from "react";
-import styles from "./styles.module.css";
+import { useContext } from "react";
 
-export interface InputProps {
-  /** 입력값 */
-  value: string;
-  /** 입력값 변경 핸들러 */
-  onChange: (value: string) => void;
-  /** 플레이스홀더 텍스트 */
-  placeholder?: string;
-  /** 추가 클래스명 */
+import styles from "./styles.module.css";
+import { SearchBarContext } from "../../context";
+
+export interface SearchBarInputProps {
+  /**
+   * 추가적인 스타일링을 위한 클래스명
+   */
   className?: string;
+  /**
+   * 입력 필드의 placeholder 텍스트
+   */
+  placeholder?: string;
+  /**
+   * 입력 필드의 값이 변경될 때 호출되는 콜백 함수
+   */
+  onChange?: (value: string) => void;
 }
 
-/**
- * 검색 입력 컴포넌트
- */
-export const Input = ({
-  value,
-  onChange,
+const SearchBarInput: React.FC<SearchBarInputProps> = ({
   placeholder = "검색어를 입력하세요",
   className = "",
-}: InputProps): React.ReactElement => {
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    onChange(e.target.value);
+  onChange,
+}) => {
+  const context = useContext(SearchBarContext);
+
+  if (!context) {
+    throw new Error(
+      "SearchBarInput must be used within a <SearchBarContainer /> component"
+    );
+  }
+
+  const { value, setValue } = context;
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setValue(e.target.value);
+
+    onChange?.(e.target.value);
   };
 
   return (
     <input
+      className={`${styles.input} ${className}`}
+      placeholder={placeholder}
       type="text"
       value={value}
       onChange={handleChange}
-      placeholder={placeholder}
-      className={`${styles.input} ${className}`.trim()}
     />
   );
 };
 
-export default Input;
+export default SearchBarInput;

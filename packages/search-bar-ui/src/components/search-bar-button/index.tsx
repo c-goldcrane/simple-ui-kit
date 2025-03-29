@@ -1,35 +1,50 @@
-import React from "react";
-import styles from "./styles.module.css";
+import { useContext } from "react";
 
-export interface ButtonProps {
-  /** 버튼 텍스트 */
-  children: React.ReactNode;
-  /** 버튼 타입 */
-  type?: "button" | "submit" | "reset";
-  /** 추가 클래스명 */
+import styles from "./styles.module.css";
+import { SearchBarContext } from "../../context";
+
+export interface SearchBarButtonProps {
+  /**
+   * 버튼에 표시될 텍스트
+   */
+  children?: React.ReactNode;
+  /**
+   * 추가적인 스타일링을 위한 클래스명
+   */
   className?: string;
-  /** 클릭 핸들러 */
-  onClick?: () => void;
+  /** 입력 필드가 비어있을 때 버튼을 비활성화할지 여부
+   * @default false
+   */
+  disableWhenEmpty?: boolean;
 }
 
 /**
- * 검색 버튼 컴포넌트
+ * SearchBar의 검색 버튼 컴포넌트
  */
-export const Button = ({
-  children,
-  type = "button",
+const SearchBarButton = ({
+  children = "검색",
   className = "",
-  onClick,
-}: ButtonProps): React.ReactElement => {
+  disableWhenEmpty = false,
+}: SearchBarButtonProps) => {
+  const context = useContext(SearchBarContext);
+
+  if (!context) {
+    throw new Error(
+      "SearchBarButton must be used within a <SearchBarContainer /> component"
+    );
+  }
+
+  const { value } = context;
+
   return (
     <button
-      type={type}
-      onClick={onClick}
       className={`${styles.button} ${className}`.trim()}
+      disabled={disableWhenEmpty && !value}
+      type="submit"
     >
       {children}
     </button>
   );
 };
 
-export default Button;
+export default SearchBarButton;
