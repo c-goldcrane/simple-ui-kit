@@ -19,6 +19,7 @@ export interface Props {
 
 const SearchBarContainer = ({ children, onSubmit }: Props) => {
   const [value, setValue] = useState("");
+  const [isFocused, setIsFocused] = useState(false);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -28,9 +29,26 @@ const SearchBarContainer = ({ children, onSubmit }: Props) => {
 
   return (
     <SearchBarContext.Provider value={{ value, setValue }}>
-      <form onSubmit={handleSubmit} className={styles.container}>
-        {children}
-      </form>
+      <div className={styles.container}>
+        <form
+          className={styles.formContainer}
+          onSubmit={handleSubmit}
+          onFocus={() => setIsFocused(true)}
+          onBlur={() => setIsFocused(false)}
+        >
+          {children}
+        </form>
+
+        {isFocused && (
+          <div className={styles.suggestions}>
+            <ul>
+              <li className={styles.suggestionItem}>test1</li>
+              <li className={styles.suggestionItem}>test2</li>
+              <li className={styles.suggestionItem}>test3</li>
+            </ul>
+          </div>
+        )}
+      </div>
     </SearchBarContext.Provider>
   );
 };
