@@ -17,15 +17,14 @@ const Suggestions = ({ children, className }: SuggestionContainerProps) => {
     );
   }
 
-  const { isFocused } = context;
-
-  if (!isFocused) return null;
+  const { isOpen } = context;
 
   return (
     <ul className={`${styles.suggestions} ${className}`}>
-      {children.map((child, index) =>
-        React.cloneElement(child as React.ReactElement, { index, key: index })
-      )}
+      {isOpen &&
+        children.map((child, index) =>
+          React.cloneElement(child as React.ReactElement, { index, key: index })
+        )}
     </ul>
   );
 };

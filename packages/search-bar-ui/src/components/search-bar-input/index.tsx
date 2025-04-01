@@ -1,9 +1,10 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 
 import styles from "./styles.module.css";
 import { SearchBarContext } from "../../context";
 
 export interface SearchBarInputProps {
+  value?: string;
   /**
    * 추가적인 스타일링을 위한 클래스명
    */
@@ -18,11 +19,12 @@ export interface SearchBarInputProps {
   onChange?: (value: string) => void;
 }
 
-const SearchBarInput: React.FC<SearchBarInputProps> = ({
+const SearchBarInput = ({
+  value,
   placeholder = "검색어를 입력하세요",
   className = "",
   onChange,
-}) => {
+}: SearchBarInputProps) => {
   const context = useContext(SearchBarContext);
 
   if (!context) {
@@ -31,21 +33,27 @@ const SearchBarInput: React.FC<SearchBarInputProps> = ({
     );
   }
 
-  const { value, setValue } = context;
+  const { contextValue, setContextValue, setIsOpen } = context;
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setValue(e.target.value);
-
+    setContextValue(e.target.value);
     onChange?.(e.target.value);
   };
+
+  useEffect(() => {
+    if (value !== undefined) {
+      setContextValue(value);
+    }
+  }, [value, setContextValue]);
 
   return (
     <input
       className={`${styles.input} ${className}`}
       placeholder={placeholder}
       type="text"
-      value={value}
+      value={contextValue}
       onChange={handleChange}
+      onClick={() => setIsOpen(true)}
     />
   );
 };

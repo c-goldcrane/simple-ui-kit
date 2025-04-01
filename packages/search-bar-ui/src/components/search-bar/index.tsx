@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState, useEffect, useRef } from "react";
 
 import styles from "./styles.module.css";
 import { SearchBarContext } from "../../context";
@@ -22,26 +22,31 @@ export interface Props {
 }
 
 const SearchBar = ({ children, onSubmit }: Props) => {
-  const [value, setValue] = useState("");
-  const [isFocused, setIsFocused] = useState(false);
+  const [contextValue, setContextValue] = useState("");
   const [selectedIndex, setSelectedIndex] = useState(-1);
+  const [isOpen, setIsOpen] = useState(false);
+
+  const containerRef = useRef<HTMLDivElement>(null);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    onSubmit?.(value);
+    onSubmit?.(contextValue);
   };
 
   const handleKeyDown = useCallback(
     (e: React.KeyboardEvent<HTMLFormElement>) => {
-      if (!isFocused) return;
+      console.log("handleKeyDown", e.key);
 
       const suggestions = document.querySelectorAll(
         `.${styles.suggestionItem}`
       );
       const maxIndex = suggestions.length - 1;
 
-      e.preventDefault();
+      // 특수 키에 대해서만 preventDefault() 호출
+      if (["ArrowDown", "ArrowUp", "Enter", "Escape"].includes(e.key)) {
+        e.preventDefault();
+      }
 
       const handleArrowDown = () => {
         const nextIndex = selectedIndex + 1;
@@ -72,15 +77,15 @@ const SearchBar = ({ children, onSubmit }: Props) => {
           return;
         }
 
-        setValue(suggestions[selectedIndex + 1].textContent ?? "");
-        onSubmit?.(value);
+        setContextValue(suggestions[selectedIndex + 1].textContent ?? "");
         setSelectedIndex(-1);
-        setIsFocused(false);
+        setIsOpen(false);
+        onSubmit?.(suggestions[selectedIndex + 1].textContent ?? "");
       };
 
       const handleEscape = () => {
-        setIsFocused(false);
         setSelectedIndex(-1);
+        setIsOpen(false);
       };
 
       switch (e.key) {
@@ -100,26 +105,42 @@ const SearchBar = ({ children, onSubmit }: Props) => {
           break;
       }
     },
-    [isFocused, selectedIndex, value, onSubmit]
+    [selectedIndex, onSubmit]
   );
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        containerRef.current &&
+        !containerRef.current.contains(event.target as Node)
+      ) {
+        setIsOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   return (
     <SearchBarContext.Provider
       value={{
-        value,
-        setValue,
-        isFocused,
-        setIsFocused,
+        contextValue,
+        setContextValue,
         selectedIndex,
         setSelectedIndex,
+        isOpen,
+        setIsOpen,
+        onSubmit,
       }}
     >
-      <div className={styles.container}>
+      <div className={styles.container} ref={containerRef}>
         <form
           className={styles.formContainer}
           onSubmit={handleSubmit}
-          onFocus={() => setIsFocused(true)}
-          onBlur={() => setIsFocused(false)}
           onKeyDown={handleKeyDown}
         >
           {children}

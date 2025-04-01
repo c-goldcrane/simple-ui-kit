@@ -6,12 +6,14 @@ export interface SuggestionItemProps {
   children: React.ReactNode;
   className?: string;
   index?: number;
+  onClick?: (index: number) => void;
 }
 
 const SuggestionItem = ({
   children,
   className,
   index = -1,
+  onClick,
 }: SuggestionItemProps) => {
   const context = useContext(SearchBarContext);
 
@@ -21,14 +23,31 @@ const SuggestionItem = ({
     );
   }
 
-  const { selectedIndex, setSelectedIndex } = context;
+  const {
+    selectedIndex,
+    setSelectedIndex,
+    setContextValue,
+    setIsOpen,
+    onSubmit,
+  } = context;
+
+  const handleClick = () => {
+    const value = children?.toString() ?? "";
+
+    setSelectedIndex(index);
+    setContextValue(value);
+    setIsOpen(false);
+    onSubmit?.(value);
+
+    onClick?.(index);
+  };
 
   return (
     <li
       className={`${styles.suggestionItem} ${className} ${
         selectedIndex === index ? styles.selected : ""
       }`}
-      onClick={() => setSelectedIndex(index)}
+      onClick={handleClick}
     >
       {children}
     </li>
