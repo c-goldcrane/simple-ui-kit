@@ -22,7 +22,7 @@ export interface Props {
 }
 
 const SearchBar = ({ children, onSubmit }: Props) => {
-  const [contextValue, setContextValue] = useState("");
+  const [searchInputValue, setSearchInputValue] = useState("");
   const [selectedIndex, setSelectedIndex] = useState(-1);
   const [isOpen, setIsOpen] = useState(false);
 
@@ -31,13 +31,11 @@ const SearchBar = ({ children, onSubmit }: Props) => {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    onSubmit?.(contextValue);
+    onSubmit?.(searchInputValue);
   };
 
   const handleKeyDown = useCallback(
     (e: React.KeyboardEvent<HTMLFormElement>) => {
-      console.log("handleKeyDown", e.key);
-
       const suggestions = document.querySelectorAll(
         `.${styles.suggestionItem}`
       );
@@ -74,13 +72,15 @@ const SearchBar = ({ children, onSubmit }: Props) => {
 
       const handleEnter = () => {
         if (selectedIndex === -1) {
-          return;
+          onSubmit?.(searchInputValue);
+        } else {
+          setSearchInputValue(suggestions[selectedIndex + 1].textContent ?? "");
+          setSelectedIndex(-1);
+
+          onSubmit?.(suggestions[selectedIndex + 1].textContent ?? "");
         }
 
-        setContextValue(suggestions[selectedIndex + 1].textContent ?? "");
-        setSelectedIndex(-1);
         setIsOpen(false);
-        onSubmit?.(suggestions[selectedIndex + 1].textContent ?? "");
       };
 
       const handleEscape = () => {
@@ -128,8 +128,8 @@ const SearchBar = ({ children, onSubmit }: Props) => {
   return (
     <SearchBarContext.Provider
       value={{
-        contextValue,
-        setContextValue,
+        searchInputValue,
+        setSearchInputValue,
         selectedIndex,
         setSelectedIndex,
         isOpen,

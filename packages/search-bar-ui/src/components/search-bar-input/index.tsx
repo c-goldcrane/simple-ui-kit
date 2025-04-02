@@ -33,25 +33,25 @@ const SearchBarInput = ({
     );
   }
 
-  const { contextValue, setContextValue, setIsOpen } = context;
+  const { searchInputValue, setSearchInputValue, setIsOpen } = context;
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setContextValue(e.target.value);
+    setSearchInputValue(e.target.value);
     onChange?.(e.target.value);
   };
 
   useEffect(() => {
     if (value !== undefined) {
-      setContextValue(value);
+      setSearchInputValue(value);
     }
-  }, [value, setContextValue]);
+  }, [value, setSearchInputValue]);
 
   return (
     <input
       className={`${styles.input} ${className}`}
       placeholder={placeholder}
       type="text"
-      value={contextValue}
+      value={searchInputValue}
       onChange={handleChange}
       onClick={() => setIsOpen(true)}
     />

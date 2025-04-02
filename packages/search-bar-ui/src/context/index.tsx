@@ -1,8 +1,8 @@
 import { createContext } from "react";
 
 export type SearchBarContextType = {
-  contextValue: string;
-  setContextValue: (value: string) => void;
+  searchInputValue: string;
+  setSearchInputValue: (value: string) => void;
   selectedIndex: number;
   setSelectedIndex: (index: number) => void;
   isOpen: boolean;

@@ -26,7 +26,7 @@ const SuggestionItem = ({
   const {
     selectedIndex,
     setSelectedIndex,
-    setContextValue,
+    setSearchInputValue,
     setIsOpen,
     onSubmit,
   } = context;
@@ -35,7 +35,7 @@ const SuggestionItem = ({
     const value = children?.toString() ?? "";
 
     setSelectedIndex(index);
-    setContextValue(value);
+    setSearchInputValue(value);
     setIsOpen(false);
     onSubmit?.(value);
 

@@ -34,12 +34,12 @@ const SearchBarButton = ({
     );
   }
 
-  const { contextValue } = context;
+  const { searchInputValue } = context;
 
   return (
     <button
       className={`${styles.button} ${className}`.trim()}
-      disabled={disableWhenEmpty && !contextValue}
+      disabled={disableWhenEmpty && !searchInputValue}
       type="submit"
     >
       {children}
