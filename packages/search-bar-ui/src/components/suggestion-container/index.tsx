@@ -3,8 +3,6 @@ import React, { cloneElement, useContext } from "react";
 import { DropdownContext } from "../../context";
 import { SuggestionItemProps } from "../suggestion-item";
 
-import styles from "./styles.module.css";
-
 export interface SuggestionContainerProps {
   children:
     | React.ReactElement<SuggestionItemProps>
@@ -17,7 +15,7 @@ const Suggestions = ({ children, className }: SuggestionContainerProps) => {
 
   if (!dropdownContext) {
     throw new Error(
-      "Suggestions must be used within a <SearchBar /> component"
+      "Suggestions must be used within a <SearchBar /> component",
     );
   }
 
@@ -25,9 +23,13 @@ const Suggestions = ({ children, className }: SuggestionContainerProps) => {
   const childrenArray = Array.isArray(children) ? children : [children];
 
   return (
-    <ul className={`${styles.suggestions} ${className}`}>
+    <ul
+      className={`absolute left-0 top-full w-full rounded-md bg-white shadow-md ${className}`}
+    >
       {isOpen &&
-        childrenArray.map((child, index) => cloneElement(child, { index }))}
+        childrenArray.map((child, index) =>
+          cloneElement(child, { index, key: child.props.value }),
+        )}
     </ul>
   );
 };

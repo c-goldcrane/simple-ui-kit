@@ -26,8 +26,8 @@
     "url": "https://github.com/c-goldcrane/simple-ui-kit"
   },
   "peerDependencies": {
-    "react": "^18.0.0",
-    "react-dom": "^18.0.0"
+    "react": ">=16.0.0",
+    "react-dom": ">=16.0.0"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^25.0.0",
@@ -36,6 +36,7 @@
     "@rollup/plugin-typescript": "^11.0.0",
     "@types/react": "^18.0.0",
     "rollup": "^4.0.0",
+    "rollup-plugin-peer-deps-external": "^2.2.4",
     "rollup-plugin-postcss": "^4.0.0",
     "typescript": "^5.0.0"
   }

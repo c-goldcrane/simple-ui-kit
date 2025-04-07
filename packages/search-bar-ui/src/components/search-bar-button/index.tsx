@@ -2,8 +2,6 @@ import { useContext } from "react";
 
 import { SearchInputContext } from "../../context";
 
-import styles from "./styles.module.css";
-
 export interface SearchBarButtonProps {
   /**
    * 버튼에 표시될 텍스트
@@ -31,7 +29,7 @@ const SearchBarButton = ({
 
   if (!searchInputContext) {
     throw new Error(
-      "SearchBarButton must be used within a <SearchBarContainer /> component"
+      "SearchBarButton must be used within a <SearchBarContainer /> component",
     );
   }
 
@@ -39,7 +37,7 @@ const SearchBarButton = ({
 
   return (
     <button
-      className={`${styles.button} ${className}`.trim()}
+      className={`cursor-pointer text-nowrap rounded-md border-none bg-black p-2 px-3 text-sm text-white transition-colors duration-200 disabled:cursor-not-allowed disabled:bg-gray-300 ${className}`}
       disabled={disableWhenEmpty && !searchInputValue}
       type="submit"
     >
