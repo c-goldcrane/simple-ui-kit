@@ -1,19 +1,20 @@
 import { useContext } from "react";
-import styles from "./styles.module.css";
 import { SearchBarContext } from "../../context";
+
+import styles from "./styles.module.css";
 
 export interface SuggestionItemProps {
   children: React.ReactNode;
   className?: string;
   index?: number;
-  onClick?: (index: number) => void;
+  value: string;
 }
 
 const SuggestionItem = ({
   children,
   className,
-  index = -1,
-  onClick,
+  index,
+  value,
 }: SuggestionItemProps) => {
   const context = useContext(SearchBarContext);
 
@@ -23,29 +24,20 @@ const SuggestionItem = ({
     );
   }
 
-  const {
-    selectedIndex,
-    setSelectedIndex,
-    setSearchInputValue,
-    setIsOpen,
-    onSubmit,
-  } = context;
+  const { selectedItemIndex, setSearchInputValue, setIsOpen, onSubmit } =
+    context;
 
   const handleClick = () => {
-    const value = children?.toString() ?? "";
-
-    setSelectedIndex(index);
     setSearchInputValue(value);
     setIsOpen(false);
-    onSubmit?.(value);
 
-    onClick?.(index);
+    onSubmit?.(value);
   };
 
   return (
     <li
       className={`${styles.suggestionItem} ${className} ${
-        selectedIndex === index ? styles.selected : ""
+        selectedItemIndex === index ? styles.selected : ""
       }`}
       onClick={handleClick}
     >

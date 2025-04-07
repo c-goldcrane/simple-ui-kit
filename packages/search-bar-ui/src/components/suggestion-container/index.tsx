@@ -1,10 +1,13 @@
-import React, { useContext } from "react";
+import React, { cloneElement, useContext } from "react";
 
 import styles from "./styles.module.css";
 import { SearchBarContext } from "../../context";
+import { SuggestionItemProps } from "../suggestion-item";
 
 export interface SuggestionContainerProps {
-  children: React.ReactNode[];
+  children:
+    | React.ReactElement<SuggestionItemProps>
+    | React.ReactElement<SuggestionItemProps>[];
   className?: string;
 }
 
@@ -18,13 +21,12 @@ const Suggestions = ({ children, className }: SuggestionContainerProps) => {
   }
 
   const { isOpen } = context;
+  const childrenArray = Array.isArray(children) ? children : [children];
 
   return (
     <ul className={`${styles.suggestions} ${className}`}>
       {isOpen &&
-        children.map((child, index) =>
-          React.cloneElement(child as React.ReactElement, { index, key: index })
-        )}
+        childrenArray.map((child, index) => cloneElement(child, { index }))}
     </ul>
   );
 };
