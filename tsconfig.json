@@ -7,10 +7,10 @@
       "path": "./packages/search-bar-ui"
     },
     {
-      "path": "./apps/test-my-app-e2e"
+      "path": "./apps/inventory-e2e"
     },
     {
-      "path": "./apps/test-my-app"
+      "path": "./apps/inventory"
     }
   ]
 }

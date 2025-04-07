@@ -6,8 +6,6 @@ import {
   SearchInputContext,
 } from "../../context";
 
-import styles from "./styles.module.css";
-
 const SearchBarContainer = ({ children }: { children: React.ReactNode }) => {
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -17,7 +15,7 @@ const SearchBarContainer = ({ children }: { children: React.ReactNode }) => {
 
   if (!dropdownContext || !suggestionContext || !searchInputContext) {
     throw new Error(
-      "SearchBarContainer must be used within a context provider"
+      "SearchBarContainer must be used within a context provider",
     );
   }
 
@@ -34,10 +32,8 @@ const SearchBarContainer = ({ children }: { children: React.ReactNode }) => {
 
   const handleKeyDown = useCallback(
     (e: React.KeyboardEvent<HTMLFormElement>) => {
-      const suggestions = document.querySelectorAll(
-        `.${styles.suggestionItem}`
-      );
-      const maxIndex = suggestions.length - 1;
+      const suggestions = document.querySelectorAll(`.suggestion-item`);
+      const maxIndex = suggestions.length;
 
       // 특수 키에 대해서만 preventDefault() 호출
       if (["ArrowDown", "ArrowUp", "Enter", "Escape"].includes(e.key)) {
@@ -59,7 +55,6 @@ const SearchBarContainer = ({ children }: { children: React.ReactNode }) => {
           setSelectedItemIndex(maxIndex - 1);
         } else {
           const prevIndex = selectedItemIndex - 1;
-
           if (prevIndex >= 0) {
             setSelectedItemIndex(prevIndex);
           } else {
@@ -73,7 +68,7 @@ const SearchBarContainer = ({ children }: { children: React.ReactNode }) => {
           onSubmit?.(searchInputValue);
         } else {
           setSearchInputValue(
-            suggestions[selectedItemIndex + 1].textContent ?? ""
+            suggestions[selectedItemIndex + 1].textContent ?? "",
           );
           setSelectedItemIndex(-1);
 
@@ -112,7 +107,7 @@ const SearchBarContainer = ({ children }: { children: React.ReactNode }) => {
       onSubmit,
       searchInputValue,
       setSearchInputValue,
-    ]
+    ],
   );
 
   useEffect(() => {
@@ -133,9 +128,9 @@ const SearchBarContainer = ({ children }: { children: React.ReactNode }) => {
   }, []);
 
   return (
-    <div className={styles.container} ref={containerRef}>
+    <div className="flex w-full max-w-[600px]" ref={containerRef}>
       <form
-        className={styles.formContainer}
+        className="relative flex w-full gap-2"
         onSubmit={handleSubmit}
         onKeyDown={handleKeyDown}
       >

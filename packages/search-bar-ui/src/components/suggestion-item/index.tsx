@@ -4,8 +4,7 @@ import {
   SearchInputContext,
   SuggestionContext,
 } from "../../context";
-
-import styles from "./styles.module.css";
+import { cn } from "../../utils/style";
 
 export interface SuggestionItemProps {
   children: React.ReactNode;
@@ -26,7 +25,7 @@ const SuggestionItem = ({
 
   if (!dropdownContext || !suggestionContext || !searchInputContext) {
     throw new Error(
-      "SuggestionItem must be used within a <SearchBar /> component"
+      "SuggestionItem must be used within a <SearchBar /> component",
     );
   }
 
@@ -43,9 +42,11 @@ const SuggestionItem = ({
 
   return (
     <li
-      className={`${styles.suggestionItem} ${className} ${
-        selectedItemIndex === index ? styles.selected : ""
-      }`}
+      className={cn(
+        "suggestion-item cursor-pointer p-2 text-sm transition-colors duration-200 hover:bg-gray-100",
+        selectedItemIndex === index && "bg-blue-100",
+        className,
+      )}
       onClick={handleClick}
     >
       {children}

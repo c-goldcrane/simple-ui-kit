@@ -2,8 +2,6 @@ import { useContext, useEffect } from "react";
 
 import { DropdownContext, SearchInputContext } from "../../context";
 
-import styles from "./styles.module.css";
-
 export interface SearchBarInputProps {
   value?: string;
   /**
@@ -31,7 +29,7 @@ const SearchBarInput = ({
 
   if (!searchInputContext || !dropdownContext) {
     throw new Error(
-      "SearchBarInput must be used within a <SearchBarContainer /> component"
+      "SearchBarInput must be used within a <SearchBarContainer /> component",
     );
   }
 
@@ -51,7 +49,7 @@ const SearchBarInput = ({
 
   return (
     <input
-      className={`${styles.input} ${className}`}
+      className={`w-full rounded-md border border-gray-300 px-2 py-1 text-sm transition-colors duration-200 focus:border-blue-500 focus:outline-none ${className}`}
       placeholder={placeholder}
       type="text"
       value={searchInputValue}
