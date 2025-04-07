@@ -48,8 +48,8 @@ module.exports = {
     }),
     terser({
       compress: {
-        // drop_console: true,
-        // pure_funcs: ["console.log"],
+        drop_console: true,
+        pure_funcs: ["console.log"],
       },
     }),
   ],
