@@ -1,8 +1,9 @@
 import React, { cloneElement, useContext } from "react";
 
-import styles from "./styles.module.css";
-import { SearchBarContext } from "../../context";
+import { DropdownContext } from "../../context";
 import { SuggestionItemProps } from "../suggestion-item";
+
+import styles from "./styles.module.css";
 
 export interface SuggestionContainerProps {
   children:
@@ -12,15 +13,15 @@ export interface SuggestionContainerProps {
 }
 
 const Suggestions = ({ children, className }: SuggestionContainerProps) => {
-  const context = useContext(SearchBarContext);
+  const dropdownContext = useContext(DropdownContext);
 
-  if (!context) {
+  if (!dropdownContext) {
     throw new Error(
       "Suggestions must be used within a <SearchBar /> component"
     );
   }
 
-  const { isOpen } = context;
+  const { isOpen } = dropdownContext;
   const childrenArray = Array.isArray(children) ? children : [children];
 
   return (

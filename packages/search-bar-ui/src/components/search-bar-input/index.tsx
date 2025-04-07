@@ -1,7 +1,8 @@
 import { useContext, useEffect } from "react";
 
+import { DropdownContext, SearchInputContext } from "../../context";
+
 import styles from "./styles.module.css";
-import { SearchBarContext } from "../../context";
 
 export interface SearchBarInputProps {
   value?: string;
@@ -25,15 +26,17 @@ const SearchBarInput = ({
   className = "",
   onChange,
 }: SearchBarInputProps) => {
-  const context = useContext(SearchBarContext);
+  const searchInputContext = useContext(SearchInputContext);
+  const dropdownContext = useContext(DropdownContext);
 
-  if (!context) {
+  if (!searchInputContext || !dropdownContext) {
     throw new Error(
       "SearchBarInput must be used within a <SearchBarContainer /> component"
     );
   }
 
-  const { searchInputValue, setSearchInputValue, setIsOpen } = context;
+  const { searchInputValue, setSearchInputValue } = searchInputContext;
+  const { setIsOpen } = dropdownContext;
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchInputValue(e.target.value);

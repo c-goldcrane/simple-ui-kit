@@ -1,5 +1,9 @@
 import { useContext } from "react";
-import { SearchBarContext } from "../../context";
+import {
+  DropdownContext,
+  SearchInputContext,
+  SuggestionContext,
+} from "../../context";
 
 import styles from "./styles.module.css";
 
@@ -16,16 +20,19 @@ const SuggestionItem = ({
   index,
   value,
 }: SuggestionItemProps) => {
-  const context = useContext(SearchBarContext);
+  const searchInputContext = useContext(SearchInputContext);
+  const dropdownContext = useContext(DropdownContext);
+  const suggestionContext = useContext(SuggestionContext);
 
-  if (!context) {
+  if (!dropdownContext || !suggestionContext || !searchInputContext) {
     throw new Error(
       "SuggestionItem must be used within a <SearchBar /> component"
     );
   }
 
-  const { selectedItemIndex, setSearchInputValue, setIsOpen, onSubmit } =
-    context;
+  const { selectedItemIndex } = suggestionContext;
+  const { setIsOpen } = dropdownContext;
+  const { setSearchInputValue, onSubmit } = searchInputContext;
 
   const handleClick = () => {
     setSearchInputValue(value);

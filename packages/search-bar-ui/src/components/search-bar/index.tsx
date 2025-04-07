@@ -1,11 +1,9 @@
-import { useCallback, useState, useEffect, useRef } from "react";
-
-import styles from "./styles.module.css";
-import { SearchBarContext } from "../../context";
 import Suggestions from "../suggestion-container";
 import SuggestionItem from "../suggestion-item";
 import SearchBarInput from "../search-bar-input";
 import SearchBarButton from "../search-bar-button";
+import SearchBarContainer from "../search-bar-container";
+import { SearchBarProvider } from "../../context";
 
 /**
  * SearchBar 컴포넌트의 컨테이너 컴포넌트
@@ -22,131 +20,10 @@ export interface Props {
 }
 
 const SearchBar = ({ children, onSubmit }: Props) => {
-  const [searchInputValue, setSearchInputValue] = useState("");
-  const [selectedIndex, setSelectedIndex] = useState(-1);
-  const [isOpen, setIsOpen] = useState(false);
-
-  const containerRef = useRef<HTMLDivElement>(null);
-
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    onSubmit?.(searchInputValue);
-  };
-
-  const handleKeyDown = useCallback(
-    (e: React.KeyboardEvent<HTMLFormElement>) => {
-      const suggestions = document.querySelectorAll(
-        `.${styles.suggestionItem}`
-      );
-      const maxIndex = suggestions.length - 1;
-
-      // 특수 키에 대해서만 preventDefault() 호출
-      if (["ArrowDown", "ArrowUp", "Enter", "Escape"].includes(e.key)) {
-        e.preventDefault();
-      }
-
-      const handleArrowDown = () => {
-        const nextIndex = selectedIndex + 1;
-
-        if (nextIndex < maxIndex) {
-          setSelectedIndex(selectedIndex + 1);
-        } else {
-          setSelectedIndex(-1);
-        }
-      };
-
-      const handleArrowUp = () => {
-        if (selectedIndex === -1) {
-          setSelectedIndex(maxIndex - 1);
-        } else {
-          const prevIndex = selectedIndex - 1;
-
-          if (prevIndex >= 0) {
-            setSelectedIndex(prevIndex);
-          } else {
-            setSelectedIndex(-1);
-          }
-        }
-      };
-
-      const handleEnter = () => {
-        if (selectedIndex === -1) {
-          onSubmit?.(searchInputValue);
-        } else {
-          setSearchInputValue(suggestions[selectedIndex + 1].textContent ?? "");
-          setSelectedIndex(-1);
-
-          onSubmit?.(suggestions[selectedIndex + 1].textContent ?? "");
-        }
-
-        setIsOpen(false);
-      };
-
-      const handleEscape = () => {
-        setSelectedIndex(-1);
-        setIsOpen(false);
-      };
-
-      switch (e.key) {
-        case "ArrowDown":
-          handleArrowDown();
-          break;
-        case "ArrowUp":
-          handleArrowUp();
-          break;
-        case "Enter":
-          handleEnter();
-          break;
-        case "Escape":
-          handleEscape();
-          break;
-        default:
-          break;
-      }
-    },
-    [selectedIndex, onSubmit]
-  );
-
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        containerRef.current &&
-        !containerRef.current.contains(event.target as Node)
-      ) {
-        setIsOpen(false);
-      }
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
-
   return (
-    <SearchBarContext.Provider
-      value={{
-        searchInputValue,
-        setSearchInputValue,
-        selectedIndex,
-        setSelectedIndex,
-        isOpen,
-        setIsOpen,
-        onSubmit,
-      }}
-    >
-      <div className={styles.container} ref={containerRef}>
-        <form
-          className={styles.formContainer}
-          onSubmit={handleSubmit}
-          onKeyDown={handleKeyDown}
-        >
-          {children}
-        </form>
-      </div>
-    </SearchBarContext.Provider>
+    <SearchBarProvider onSubmit={onSubmit}>
+      <SearchBarContainer>{children}</SearchBarContainer>
+    </SearchBarProvider>
   );
 };
 

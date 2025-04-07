@@ -1,15 +1,23 @@
-import { createContext } from "react";
+import { SearchInputProvider } from "./search-input-context";
+import { SuggestionProvider } from "./suggestion-context";
+import { DropdownProvider } from "./dropdown-context";
 
-export type SearchBarContextType = {
-  searchInputValue: string;
-  setSearchInputValue: (value: string) => void;
-  selectedIndex: number;
-  setSelectedIndex: (index: number) => void;
-  isOpen: boolean;
-  setIsOpen: (value: boolean) => void;
+export function SearchBarProvider({
+  children,
+  onSubmit,
+}: {
+  children: React.ReactNode;
   onSubmit?: (value: string) => void;
-};
+}) {
+  return (
+    <SearchInputProvider onSubmit={onSubmit}>
+      <SuggestionProvider>
+        <DropdownProvider>{children}</DropdownProvider>
+      </SuggestionProvider>
+    </SearchInputProvider>
+  );
+}
 
-export const SearchBarContext = createContext<SearchBarContextType | null>(
-  null
-);
+export * from "./search-input-context";
+export * from "./suggestion-context";
+export * from "./dropdown-context";
