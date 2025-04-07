@@ -1,9 +1,11 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
+
+import { DropdownContext, SearchInputContext } from "../../context";
 
 import styles from "./styles.module.css";
-import { SearchBarContext } from "../../context";
 
 export interface SearchBarInputProps {
+  value?: string;
   /**
    * 추가적인 스타일링을 위한 클래스명
    */
@@ -18,34 +20,43 @@ export interface SearchBarInputProps {
   onChange?: (value: string) => void;
 }
 
-const SearchBarInput: React.FC<SearchBarInputProps> = ({
+const SearchBarInput = ({
+  value,
   placeholder = "검색어를 입력하세요",
   className = "",
   onChange,
-}) => {
-  const context = useContext(SearchBarContext);
+}: SearchBarInputProps) => {
+  const searchInputContext = useContext(SearchInputContext);
+  const dropdownContext = useContext(DropdownContext);
 
-  if (!context) {
+  if (!searchInputContext || !dropdownContext) {
     throw new Error(
       "SearchBarInput must be used within a <SearchBarContainer /> component"
     );
   }
 
-  const { value, setValue } = context;
+  const { searchInputValue, setSearchInputValue } = searchInputContext;
+  const { setIsOpen } = dropdownContext;
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setValue(e.target.value);
-
+    setSearchInputValue(e.target.value);
     onChange?.(e.target.value);
   };
+
+  useEffect(() => {
+    if (value !== undefined) {
+      setSearchInputValue(value);
+    }
+  }, [value, setSearchInputValue]);
 
   return (
     <input
       className={`${styles.input} ${className}`}
       placeholder={placeholder}
       type="text"
-      value={value}
+      value={searchInputValue}
       onChange={handleChange}
+      onClick={() => setIsOpen(true)}
     />
   );
 };

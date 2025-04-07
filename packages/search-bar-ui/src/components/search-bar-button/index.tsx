@@ -1,7 +1,8 @@
 import { useContext } from "react";
 
+import { SearchInputContext } from "../../context";
+
 import styles from "./styles.module.css";
-import { SearchBarContext } from "../../context";
 
 export interface SearchBarButtonProps {
   /**
@@ -26,20 +27,20 @@ const SearchBarButton = ({
   className = "",
   disableWhenEmpty = false,
 }: SearchBarButtonProps) => {
-  const context = useContext(SearchBarContext);
+  const searchInputContext = useContext(SearchInputContext);
 
-  if (!context) {
+  if (!searchInputContext) {
     throw new Error(
       "SearchBarButton must be used within a <SearchBarContainer /> component"
     );
   }
 
-  const { value } = context;
+  const { searchInputValue } = searchInputContext;
 
   return (
     <button
       className={`${styles.button} ${className}`.trim()}
-      disabled={disableWhenEmpty && !value}
+      disabled={disableWhenEmpty && !searchInputValue}
       type="submit"
     >
       {children}

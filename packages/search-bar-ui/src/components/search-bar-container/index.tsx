@@ -1,37 +1,147 @@
-import { useState } from "react";
+import { useContext, useRef, useEffect, useCallback } from "react";
+
+import {
+  DropdownContext,
+  SuggestionContext,
+  SearchInputContext,
+} from "../../context";
 
 import styles from "./styles.module.css";
-import { SearchBarContext } from "../../context";
 
-/**
- * SearchBar 컴포넌트의 컨테이너 컴포넌트
- */
-export interface Props {
-  /**
-   * 컨테이너 내부에 렌더링될 자식 요소들
-   */
-  children: React.ReactNode;
-  /**
-   * 폼 제출 시 호출될 콜백 함수
-   */
-  onSubmit?: (value: string) => void;
-}
+const SearchBarContainer = ({ children }: { children: React.ReactNode }) => {
+  const containerRef = useRef<HTMLDivElement>(null);
 
-const SearchBarContainer = ({ children, onSubmit }: Props) => {
-  const [value, setValue] = useState("");
+  const searchInputContext = useContext(SearchInputContext);
+  const dropdownContext = useContext(DropdownContext);
+  const suggestionContext = useContext(SuggestionContext);
+
+  if (!dropdownContext || !suggestionContext || !searchInputContext) {
+    throw new Error(
+      "SearchBarContainer must be used within a context provider"
+    );
+  }
+
+  const { setIsOpen } = dropdownContext;
+  const { selectedItemIndex, setSelectedItemIndex } = suggestionContext;
+  const { searchInputValue, setSearchInputValue, onSubmit } =
+    searchInputContext;
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    onSubmit?.(value);
+    onSubmit?.(searchInputValue);
   };
 
+  const handleKeyDown = useCallback(
+    (e: React.KeyboardEvent<HTMLFormElement>) => {
+      const suggestions = document.querySelectorAll(
+        `.${styles.suggestionItem}`
+      );
+      const maxIndex = suggestions.length - 1;
+
+      // 특수 키에 대해서만 preventDefault() 호출
+      if (["ArrowDown", "ArrowUp", "Enter", "Escape"].includes(e.key)) {
+        e.preventDefault();
+      }
+
+      const handleArrowDown = () => {
+        const nextIndex = selectedItemIndex + 1;
+
+        if (nextIndex < maxIndex) {
+          setSelectedItemIndex(selectedItemIndex + 1);
+        } else {
+          setSelectedItemIndex(-1);
+        }
+      };
+
+      const handleArrowUp = () => {
+        if (selectedItemIndex === -1) {
+          setSelectedItemIndex(maxIndex - 1);
+        } else {
+          const prevIndex = selectedItemIndex - 1;
+
+          if (prevIndex >= 0) {
+            setSelectedItemIndex(prevIndex);
+          } else {
+            setSelectedItemIndex(-1);
+          }
+        }
+      };
+
+      const handleEnter = () => {
+        if (selectedItemIndex === -1) {
+          onSubmit?.(searchInputValue);
+        } else {
+          setSearchInputValue(
+            suggestions[selectedItemIndex + 1].textContent ?? ""
+          );
+          setSelectedItemIndex(-1);
+
+          onSubmit?.(suggestions[selectedItemIndex + 1].textContent ?? "");
+        }
+
+        setIsOpen(false);
+      };
+
+      const handleEscape = () => {
+        setSelectedItemIndex(-1);
+        setIsOpen(false);
+      };
+
+      switch (e.key) {
+        case "ArrowDown":
+          handleArrowDown();
+          break;
+        case "ArrowUp":
+          handleArrowUp();
+          break;
+        case "Enter":
+          handleEnter();
+          break;
+        case "Escape":
+          handleEscape();
+          break;
+        default:
+          break;
+      }
+    },
+    [
+      selectedItemIndex,
+      setSelectedItemIndex,
+      setIsOpen,
+      onSubmit,
+      searchInputValue,
+      setSearchInputValue,
+    ]
+  );
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        containerRef.current &&
+        !containerRef.current.contains(event.target as Node)
+      ) {
+        setIsOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   return (
-    <SearchBarContext.Provider value={{ value, setValue }}>
-      <form onSubmit={handleSubmit} className={styles.container}>
+    <div className={styles.container} ref={containerRef}>
+      <form
+        className={styles.formContainer}
+        onSubmit={handleSubmit}
+        onKeyDown={handleKeyDown}
+      >
         {children}
       </form>
-    </SearchBarContext.Provider>
+    </div>
   );
 };
 
