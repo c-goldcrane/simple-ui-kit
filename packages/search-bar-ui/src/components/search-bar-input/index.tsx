@@ -1,13 +1,25 @@
 import { useContext, useEffect } from "react";
 
 import { DropdownContext, SearchInputContext } from "../../context";
+import { cn } from "../../utils/style";
 
 export interface SearchBarInputProps {
+  /**
+   * 입력 필드의 aria-label
+   */
+  ariaLabel?: string;
+  /**
+   * 입력 필드의 초기값
+   */
   value?: string;
   /**
    * 추가적인 스타일링을 위한 클래스명
    */
   className?: string;
+  /**
+   * 입력 필드를 비활성화할지 여부
+   */
+  disabled?: boolean;
   /**
    * 입력 필드의 placeholder 텍스트
    */
@@ -19,10 +31,12 @@ export interface SearchBarInputProps {
 }
 
 const SearchBarInput = ({
+  ariaLabel = "검색 입력 필드",
   value,
   placeholder = "검색어를 입력하세요",
   className = "",
   onChange,
+  disabled = false,
 }: SearchBarInputProps) => {
   const searchInputContext = useContext(SearchInputContext);
   const dropdownContext = useContext(DropdownContext);
@@ -49,7 +63,12 @@ const SearchBarInput = ({
 
   return (
     <input
-      className={`w-full rounded-md border border-gray-300 px-2 py-1 text-sm transition-colors duration-200 focus:border-blue-500 focus:outline-none ${className}`}
+      aria-label={ariaLabel}
+      className={cn(
+        "w-full rounded-md border border-gray-300 px-2 py-1 text-sm transition-colors duration-200 focus:border-blue-500 focus:outline-none",
+        className,
+      )}
+      disabled={disabled}
       placeholder={placeholder}
       type="text"
       value={searchInputValue}
