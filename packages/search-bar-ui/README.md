@@ -1,6 +1,6 @@
 # @simple-ui-kit/search-bar-ui
 
-[NPM](https://www.npmjs.com/package/@simple-ui-kit/search-bar-ui?activeTab=readme)
+[NPM](https://www.npmjs.com/package/@simple-ui-kit/search-bar-ui?activeTab=readme), [Storybook](https://storybook-search-bar-ui.vercel.app/?path=/story/components-searchbarbutton--default)
 
 검색 기능을 위한 컴포넌트 라이브러리입니다.
 검색 입력, 버튼, 제안 목록을 포함한 완전한 검색 경험을 제공합니다.
