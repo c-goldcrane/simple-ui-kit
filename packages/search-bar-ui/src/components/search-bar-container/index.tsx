@@ -6,6 +6,8 @@ import {
   SearchInputContext,
 } from "../../context";
 
+const SUGGESTION_ITEM_CLASS = ".suk-suggestion-item";
+
 const SearchBarContainer = ({ children }: { children: React.ReactNode }) => {
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -32,7 +34,8 @@ const SearchBarContainer = ({ children }: { children: React.ReactNode }) => {
 
   const handleKeyDown = useCallback(
     (e: React.KeyboardEvent<HTMLFormElement>) => {
-      const suggestions = document.querySelectorAll(`.suk-suggestion-item`);
+      const suggestions =
+        containerRef.current?.querySelectorAll(SUGGESTION_ITEM_CLASS) || [];
       const maxIndex = suggestions.length;
 
       // 특수 키에 대해서만 preventDefault() 호출
