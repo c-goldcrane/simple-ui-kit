@@ -1,0 +1,90 @@
+:root {
+  --suk-color-white: #ffffff;
+  --suk-color-primary: #007bff;
+  --suk-color-text: #333333;
+  --suk-color-placeholder: #aaaaaa;
+  --suk-color-border: #cccccc;
+  --suk-color-hover: #f0f0f0;
+  --suk-color-disabled: #cccccc;
+}
+
+.suk-search-bar-container-wrapper {
+  width: 100%;
+  display: flex;
+  max-width: 600px;
+}
+
+.suk-search-bar-container-wrapper form {
+  background-color: var(--suk-color-white);
+  gap: 0.5rem;
+  display: flex;
+  width: 100%;
+  position: relative;
+}
+
+.suk-search-bar-container-wrapper .suk-search-bar-input {
+  color: var(--suk-color-text);
+  font-size: 0.875rem;
+  outline: none;
+  background-color: transparent;
+  padding: 0.5rem 0.75rem;
+  flex-grow: 1;
+  border: 0.0625rem solid var(--suk-color-border);
+  border-radius: 0.375rem;
+}
+
+.suk-search-bar-container-wrapper .suk-search-bar-input::placeholder {
+  color: var(--suk-color-placeholder);
+}
+
+.suk-search-bar-container-wrapper .suk-search-bar-button {
+  border: none;
+  background-color: var(--suk-color-primary);
+  color: var(--suk-color-white);
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  font-size: 0.875rem;
+  transition: background-color 0.2s ease;
+  text-wrap: normal;
+}
+
+.suk-search-bar-container-wrapper .suk-search-bar-button:hover {
+  opacity: 0.9;
+}
+
+.suk-search-bar-container-wrapper .suk-search-bar-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  background-color: var(--suk-color-disabled);
+}
+
+.suk-suggestion-container {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  background-color: var(--suk-color-white);
+  border-radius: 0.375rem;
+  border: 0.0625rem solid var(--suk-color-border);
+  list-style: none;
+  padding: 0;
+  margin-top: 0.5rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.suk-suggestion-container .suk-suggestion-item {
+  cursor: pointer;
+  font-size: 0.875rem;
+  padding: 0rem 0.75rem;
+  transition: background-color 0.2s ease;
+}
+
+.suk-suggestion-container .suk-suggestion-item-selected {
+  background-color: var(--suk-color-hover);
+}
+
+.suk-suggestion-container .suk-suggestion-item:hover {
+  background-color: var(--suk-color-hover);
+}

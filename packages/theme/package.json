@@ -1,16 +1,27 @@
 {
   "name": "@simple-ui-kit/theme",
   "version": "0.0.1",
-  "type": "module",
-  "main": "./dist/index.esm.js",
-  "module": "./dist/index.esm.js",
-  "types": "./dist/index.esm.d.ts",
-  "exports": {
-    "./package.json": "./package.json",
-    ".": {
-      "types": "./dist/index.esm.d.ts",
-      "import": "./dist/index.esm.js",
-      "default": "./dist/index.esm.js"
-    }
+  "description": "CSS theme styles for simple-ui-kit components",
+  "keywords": [
+    "simple-ui-kit",
+    "theme",
+    "css"
+  ],
+  "license": "MIT",
+  "files": [
+    "dist"
+  ],
+  "style": "dist/styles.css",
+  "scripts": {
+    "build": "rollup -c",
+    "watch": "rollup -cw",
+    "prepublishOnly": "npm run build"
+  },
+  "devDependencies": {
+    "rollup": "^4.9.6",
+    "rollup-plugin-postcss": "^4.0.2",
+    "postcss": "^8.4.35",
+    "autoprefixer": "^10.4.17",
+    "cssnano": "^6.0.3"
   }
 }
