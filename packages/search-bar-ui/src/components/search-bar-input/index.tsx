@@ -64,10 +64,7 @@ const SearchBarInput = ({
   return (
     <input
       aria-label={ariaLabel}
-      className={cn(
-        "w-full rounded-md border border-gray-300 px-2 py-1 text-sm transition-colors duration-200 focus:border-blue-500 focus:outline-none",
-        className,
-      )}
+      className={cn("suk-search-bar-input", className)}
       disabled={disabled}
       placeholder={placeholder}
       type="text"

@@ -6,6 +6,8 @@ import {
   SearchInputContext,
 } from "../../context";
 
+const SUGGESTION_ITEM_CLASS = ".suk-suggestion-item";
+
 const SearchBarContainer = ({ children }: { children: React.ReactNode }) => {
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -32,7 +34,8 @@ const SearchBarContainer = ({ children }: { children: React.ReactNode }) => {
 
   const handleKeyDown = useCallback(
     (e: React.KeyboardEvent<HTMLFormElement>) => {
-      const suggestions = document.querySelectorAll(`.suggestion-item`);
+      const suggestions =
+        containerRef.current?.querySelectorAll(SUGGESTION_ITEM_CLASS) || [];
       const maxIndex = suggestions.length;
 
       // 특수 키에 대해서만 preventDefault() 호출
@@ -67,12 +70,10 @@ const SearchBarContainer = ({ children }: { children: React.ReactNode }) => {
         if (selectedItemIndex === -1) {
           onSubmit?.(searchInputValue);
         } else {
-          setSearchInputValue(
-            suggestions[selectedItemIndex + 1].textContent ?? "",
-          );
+          setSearchInputValue(suggestions[selectedItemIndex].textContent ?? "");
           setSelectedItemIndex(-1);
 
-          onSubmit?.(suggestions[selectedItemIndex + 1].textContent ?? "");
+          onSubmit?.(suggestions[selectedItemIndex].textContent ?? "");
         }
 
         setIsOpen(false);
@@ -128,12 +129,8 @@ const SearchBarContainer = ({ children }: { children: React.ReactNode }) => {
   }, []);
 
   return (
-    <div className="flex w-full max-w-[600px]" ref={containerRef}>
-      <form
-        className="relative flex w-full gap-2"
-        onSubmit={handleSubmit}
-        onKeyDown={handleKeyDown}
-      >
+    <div className="suk-search-bar-container-wrapper" ref={containerRef}>
+      <form onSubmit={handleSubmit} onKeyDown={handleKeyDown}>
         {children}
       </form>
     </div>

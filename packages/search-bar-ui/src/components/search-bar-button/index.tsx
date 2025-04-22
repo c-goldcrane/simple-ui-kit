@@ -37,7 +37,7 @@ const SearchBarButton = ({
 
   return (
     <button
-      className={`cursor-pointer text-nowrap rounded-md border-none bg-black p-2 px-3 text-sm text-white transition-colors duration-200 disabled:cursor-not-allowed disabled:bg-gray-300 ${className}`}
+      className={`suk-search-bar-button ${className}`}
       disabled={disableWhenEmpty && !searchInputValue}
       type="submit"
     >
