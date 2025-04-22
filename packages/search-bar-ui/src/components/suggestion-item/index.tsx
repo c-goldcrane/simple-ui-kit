@@ -43,8 +43,8 @@ const SuggestionItem = ({
   return (
     <li
       className={cn(
-        "suggestion-item cursor-pointer p-2 text-sm transition-colors duration-200 hover:bg-gray-100",
-        selectedItemIndex === index && "bg-blue-100",
+        "suk-suggestion-item",
+        selectedItemIndex === index && "suk-suggestion-item-selected",
         className,
       )}
       onClick={handleClick}

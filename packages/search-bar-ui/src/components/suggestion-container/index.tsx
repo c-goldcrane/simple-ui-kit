@@ -22,16 +22,13 @@ const Suggestions = ({ children, className }: SuggestionContainerProps) => {
   const { isOpen } = dropdownContext;
   const childrenArray = Array.isArray(children) ? children : [children];
 
-  return (
-    <ul
-      className={`absolute left-0 top-full w-full rounded-md bg-white shadow-md ${className}`}
-    >
-      {isOpen &&
-        childrenArray.map((child, index) =>
-          cloneElement(child, { index, key: child.props.value }),
-        )}
+  return isOpen ? (
+    <ul className={`suk-suggestion-container ${className}`}>
+      {childrenArray.map((child, index) =>
+        cloneElement(child, { index, key: child.props.value }),
+      )}
     </ul>
-  );
+  ) : null;
 };
 
 export default Suggestions;

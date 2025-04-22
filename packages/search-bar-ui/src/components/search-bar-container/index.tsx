@@ -32,7 +32,7 @@ const SearchBarContainer = ({ children }: { children: React.ReactNode }) => {
 
   const handleKeyDown = useCallback(
     (e: React.KeyboardEvent<HTMLFormElement>) => {
-      const suggestions = document.querySelectorAll(`.suggestion-item`);
+      const suggestions = document.querySelectorAll(`.suk-suggestion-item`);
       const maxIndex = suggestions.length;
 
       // 특수 키에 대해서만 preventDefault() 호출
@@ -128,12 +128,8 @@ const SearchBarContainer = ({ children }: { children: React.ReactNode }) => {
   }, []);
 
   return (
-    <div className="flex w-full max-w-[600px]" ref={containerRef}>
-      <form
-        className="relative flex w-full gap-2"
-        onSubmit={handleSubmit}
-        onKeyDown={handleKeyDown}
-      >
+    <div className="suk-search-bar-container-wrapper" ref={containerRef}>
+      <form onSubmit={handleSubmit} onKeyDown={handleKeyDown}>
         {children}
       </form>
     </div>
