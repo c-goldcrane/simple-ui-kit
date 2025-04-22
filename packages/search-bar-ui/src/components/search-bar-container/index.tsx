@@ -67,12 +67,10 @@ const SearchBarContainer = ({ children }: { children: React.ReactNode }) => {
         if (selectedItemIndex === -1) {
           onSubmit?.(searchInputValue);
         } else {
-          setSearchInputValue(
-            suggestions[selectedItemIndex + 1].textContent ?? "",
-          );
+          setSearchInputValue(suggestions[selectedItemIndex].textContent ?? "");
           setSelectedItemIndex(-1);
 
-          onSubmit?.(suggestions[selectedItemIndex + 1].textContent ?? "");
+          onSubmit?.(suggestions[selectedItemIndex].textContent ?? "");
         }
 
         setIsOpen(false);
