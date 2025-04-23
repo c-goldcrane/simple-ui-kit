@@ -1,7 +1,34 @@
 # @simple-ui-kit/theme
 
-This library was generated with [Nx](https://nx.dev).
+CSS theme styles for simple-ui-kit components. This package provides a consistent theming system for all @simple-ui-kit components.
 
-## Running unit tests
+## Installation
 
-Run `nx test @simple-ui-kit/theme` to execute the unit tests via [Jest](https://jestjs.io).
+```bash
+npm install @simple-ui-kit/theme
+```
+
+### Import in your project
+
+You can import the theme styles directly in your JavaScript/TypeScript:
+
+```js
+// Import in your main entry file
+import "@simple-ui-kit/theme/dist/styles.css";
+```
+
+Make sure to import your custom styles after importing the theme to properly override the default values.
+
+## Components Styles
+
+This theme package includes styles for the following components:
+
+- Search Bar
+  - Input field
+  - Button
+  - Suggestions container
+  - Suggestion items
+
+## License
+
+MIT
