@@ -8,7 +8,11 @@
     "publish:search-bar-ui": "nx build search-bar-ui && cd packages/search-bar-ui && npm version patch && npm publish && cd ../..",
     "publish:search-bar-ui:minor": "nx build search-bar-ui && cd packages/search-bar-ui && npm version minor && npm publish && cd ../..",
     "publish:search-bar-ui:major": "nx build search-bar-ui && cd packages/search-bar-ui && npm version major && npm publish && cd ../..",
-    "search-bar-ui:storybook": "nx run @simple-ui-kit/search-bar-ui:storybook"
+    "search-bar-ui:storybook": "nx run @simple-ui-kit/search-bar-ui:storybook",
+    "build:theme": "nx build theme",
+    "publish:theme": "nx build theme && cd packages/theme && npm version patch && npm publish && cd ../..",
+    "publish:theme:minor": "nx build theme && cd packages/theme && npm version minor && npm publish && cd ../..",
+    "publish:theme:major": "nx build theme && cd packages/theme && npm version major && npm publish && cd ../.."
   },
   "private": true,
   "devDependencies": {

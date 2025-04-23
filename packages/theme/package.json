@@ -1,6 +1,7 @@
 {
   "name": "@simple-ui-kit/theme",
-  "version": "0.0.1",
+  "version": "1.0.0",
+  "author": "c-goldcrane",
   "description": "CSS theme styles for simple-ui-kit components",
   "keywords": [
     "simple-ui-kit",
