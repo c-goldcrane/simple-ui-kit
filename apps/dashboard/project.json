@@ -1,0 +1,23 @@
+{
+  "name": "@simple-ui-kit/dashboard",
+  "targets": {
+    "dev": {
+      "executor": "@nx/next:dev",
+      "options": {
+        "root": "apps/dashboard"
+      }
+    },
+    "build": {
+      "executor": "@nx/next:build",
+      "options": {
+        "root": "apps/dashboard"
+      }
+    },
+    "start": {
+      "executor": "@nx/next:start",
+      "options": {
+        "root": "apps/dashboard"
+      }
+    }
+  }
+}
